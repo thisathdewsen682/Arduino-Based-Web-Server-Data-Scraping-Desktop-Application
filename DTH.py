@@ -90,36 +90,39 @@ class TempHumidityMonitor(QMainWindow):
         self.table.horizontalHeader().setDefaultSectionSize(200)  # Default column width: 200px
         self.table.setFont(QFont("Arial", 14, QFont.Bold))  # Set bold font with a larger size
         self.table.setStyleSheet("""
-           QTableWidget {
+    QTableWidget {
         background-color: #f9f9f9;
         alternate-background-color: #f0f0f0;
         gridline-color: #dcdcdc;
         border: 1px solid #dcdcdc;
-        }
-        QHeaderView::section {
-            background-color: #e6e6e6;
-            font-weight: bold;
-            font-size: 12pt;
-            padding: 4px;
-            border: none;
-        }
-        QTableWidget::item {
-            padding: 4px;
-        }
-        QTableWidget::item:selected {
-            background-color: #cde4f5;
-            color: #000000;
-            """)
+    }
+    QHeaderView::section {
+        background-color: #e6e6e6;
+        font-weight: bold;
+        font-size: 12pt;
+        padding: 4px;
+        border: none;
+    }
+    QTableWidget::item {
+        padding: 4px;
+    }
+    QTableWidget::item:selected {
+        background-color: #cde4f5;
+        color: #000000;
+    }
+""")
+
+
         self.table.setAlternatingRowColors(True)
         self.table.setEditTriggers(QTableWidget.NoEditTriggers)  # Prevent editing
         self.table.horizontalHeader().setStretchLastSection(True)  # Stretch last column
         self.table.horizontalHeader().setHighlightSections(False)
         self.table.verticalHeader().setVisible(False)
         self.table.verticalHeader().setDefaultSectionSize(40)
-        self.table.setColumnWidth(1, 150)  # Set "Location" column width to 150px
+      
         self.table.horizontalHeader().setDefaultSectionSize(180)  # Default width for other columns
         self.table.horizontalHeader().setSectionResizeMode(1, self.table.horizontalHeader().ResizeToContents)
-
+        
         # Optional: Adjust font size and alignment for the table headers
         self.table.horizontalHeader().setFont(QFont("Arial", 13, QFont.Bold))
 
@@ -312,6 +315,7 @@ class TempHumidityMonitor(QMainWindow):
             self.table.setItem(row, 5, min_max_temp_item)
             self.table.setItem(row, 6, min_max_humidity_item)
 
+            self.table.resizeColumnToContents(2)
 
 
     # Right-click context menu for table
@@ -333,7 +337,7 @@ class TempHumidityMonitor(QMainWindow):
             self.table.removeRow(row)
 
             # Remove the corresponding entry from ip_list (assuming ip_list is a list of dicts with an 'id' key)
-            self.ip_list = [item for item in self.ip_list if item['id'] != row_id]
+            self.ip_list = [item for item in self.ip_list if item['id'] != int(row_id)]
 
             # Open and modify the JSON file
             try:
@@ -347,7 +351,7 @@ class TempHumidityMonitor(QMainWindow):
                 data["ips"] = [item for item in data["ips"] if int(item["id"]) != int(row_id)]
 
 
-                print(data)
+                print(self.ip_list)
                 # Debug: Print the data after modification
                 #print(data)
 
@@ -366,7 +370,18 @@ class TempHumidityMonitor(QMainWindow):
         else:
             QMessageBox.warning(self, "Warning", "Please select a row to delete.")
 
-   
+        def update_table(self):
+            """Refresh the table with the current list of IPs."""
+            self.table.setRowCount(0)
+            for idx, ip_data in enumerate(self.ip_list):
+                self.table.insertRow(idx)
+                self.table.setItem(idx, 0, QTableWidgetItem(str(ip_data['id'])))
+                self.table.setItem(idx, 1, QTableWidgetItem(ip_data['title']))
+                self.table.setItem(idx, 2, QTableWidgetItem(ip_data['location']))
+                self.table.setItem(idx, 3, QTableWidgetItem(ip_data['ip']))
+
+            # Refresh the rows
+            self.table.repaint()    
 
 
     
