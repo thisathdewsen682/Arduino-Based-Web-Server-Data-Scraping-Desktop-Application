@@ -1,5 +1,6 @@
-('D:\\Thisath\\Company Projects\\Dail Temperature And Humidity View '
- 'V6\\build\\Temperature And Humidity Monitor\\PYZ-00.pyz',
+('D:\\Thisath\\Company Projects\\DHM-KOHOKU '
+ 'LANKA\\Arduino-Based-Web-Server-Data-Scraping-Desktop-Application\\build\\Temperature '
+ 'And Humidity Monitor\\PYZ-00.pyz',
  [('PyQt5',
    'C:\\Users\\Thisath '
    'Dewsen\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\PyQt5\\__init__.py',

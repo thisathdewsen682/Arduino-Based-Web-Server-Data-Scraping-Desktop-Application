@@ -1,6 +1,7 @@
 {
   "ips": [
     {
+      "id": 1,
       "ip": "172.23.243.161",
       "title": "DHM-YD/01 ",
       "location": "C building (Unit)",
@@ -10,6 +11,7 @@
       "max_humidity": 70
     },
     {
+      "id": 2,
       "ip": "172.23.246.177",
       "title": "DHM-YD/02",
       "location": "C building (Collimator)",
@@ -19,6 +21,7 @@
       "max_humidity": 70
     },
     {
+      "id": 3,
       "ip": "172.23.246.43",
       "title": "DHM-YD/03",
       "location": "C building (QC raw material -Inside Clean Room)",
@@ -28,6 +31,7 @@
       "max_humidity": 70
     },
     {
+      "id": 4,
       "ip": "172.23.243.247",
       "title": "DHM-YD/04",
       "location": "C building (Final Ins.)",
@@ -37,6 +41,7 @@
       "max_humidity": 70
     },
     {
+      "id": 5,
       "ip": "172.23.243.29",
       "title": "DHM-YD/05",
       "location": "C building (QC raw material - Out Side Clean Room)",
@@ -46,6 +51,7 @@
       "max_humidity": 85
     },
     {
+      "id": 6,
       "ip": "172.23.246.117",
       "title": "DHM-YD/06",
       "location": "C building (Finish goods)",
@@ -55,6 +61,7 @@
       "max_humidity": 85
     },
     {
+      "id": 7,
       "ip": "172.23.245.40",
       "title": "DHM-YD/07",
       "location": "E building (Fiber Assy)",
@@ -64,6 +71,7 @@
       "max_humidity": 85
     },
     {
+      "id": 8,
       "ip": "172.23.245.39",
       "title": "DHM-YD/08",
       "location": "E building (AR Coating)",
@@ -73,6 +81,7 @@
       "max_humidity": 70
     },
     {
+      "id": 9,
       "ip": "172.23.245.41",
       "title": "DHM-YD/09",
       "location": "E building (Finish goods)",
@@ -82,6 +91,7 @@
       "max_humidity": 85
     },
     {
+      "id": 10,
       "ip": "172.23.245.42",
       "title": "DHM-YD/10",
       "location": "E building (VOA)",
@@ -91,6 +101,7 @@
       "max_humidity": 85
     },
     {
+      "id": 11,
       "ip": "172.23.245.187",
       "title": "DHM-YD/11 ",
       "location": "E building (AR Coating)",
@@ -100,6 +111,7 @@
       "max_humidity": 70
     },
     {
+      "id": 12,
       "ip": "172.23.245.62",
       "title": "DHM-YD/12 ",
       "location": "E building (AR Coating)",
@@ -109,6 +121,7 @@
       "max_humidity": 70
     },
     {
+      "id": 13,
       "ip": "172.23.243.85",
       "title": "DHM-YD/13 ",
       "location": "BBB Line",
