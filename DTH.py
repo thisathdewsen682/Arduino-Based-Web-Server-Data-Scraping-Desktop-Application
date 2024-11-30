@@ -75,7 +75,7 @@ class TempHumidityMonitor(QMainWindow):
         self.table = QTableWidget()
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels([
-            "Title", "Location", "Temperature (°C)", "Humidity (%)", 
+            "","Title", "Location", "Temperature (°C)", "Humidity (%)", 
             "Min/Max Temp (°C)", "Min/Max Humidity (%)"  # New columns
         ])
         self.table.setRowCount(0)
@@ -286,7 +286,10 @@ class TempHumidityMonitor(QMainWindow):
             self.table.hideColumn(0)
             self.table.setItem(row, 1, QTableWidgetItem(title))
             self.table.setItem(row, 2, QTableWidgetItem(location))  # Set location in the table
+            self.table.resizeColumnToContents(2)
 
+# Stretch the last column to fill the remaining width
+            self.table.horizontalHeader().setStretchLastSection(True)
             temp_item = QTableWidgetItem(f"{temperature} °C" if temperature else "N/A")
             humidity_item = QTableWidgetItem(f"{humidity} %" if humidity else "N/A")
 
@@ -378,11 +381,7 @@ class TempHumidityMonitor(QMainWindow):
 
         else:
             QMessageBox.warning(self, "Warning", "Please select a row to delete.")
-
-        
-
-
-    
+   
             
 if __name__ == "__main__":
     app = QApplication(sys.argv)
