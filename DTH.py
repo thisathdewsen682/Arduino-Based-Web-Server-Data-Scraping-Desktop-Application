@@ -244,7 +244,13 @@ class TempHumidityMonitor(QMainWindow):
         else:
             QMessageBox.warning(self, "Warning", "Please enter IP, title, and location.")
 
+    def restart_app(self):
+        """Restart the application programmatically."""
+        python = sys.executable
+        os.execl(python, python, *sys.argv)
+
     def start_background_worker(self):
+        
         def worker():
             while True:
                 for ip_data in self.ip_list:
@@ -326,19 +332,23 @@ class TempHumidityMonitor(QMainWindow):
         delete_action.triggered.connect(self.delete_row_by_id)
         context_menu.exec_(self.table.mapToGlobal(pos))
 
+
+    
+         # Clear all rows
     def delete_row_by_id(self):
         row = self.table.currentRow()
        
         if row >= 0:
             # Retrieve the ID associated with this row (assuming 'id' is in the first column)
             row_id = self.table.item(row, 0).text().strip()
-            print(row_id)
+            #print(row_id)
             # Remove the row from the table
             self.table.removeRow(row)
 
             # Remove the corresponding entry from ip_list (assuming ip_list is a list of dicts with an 'id' key)
             self.ip_list = [item for item in self.ip_list if item['id'] != int(row_id)]
-
+            
+            #self.start_background_worker()
             # Open and modify the JSON file
             try:
                 with open('ip_config.json', 'r') as json_file:
@@ -361,27 +371,17 @@ class TempHumidityMonitor(QMainWindow):
 
                 # Debug: Confirm the file has been saved
                 #print("JSON file updated successfully.")
-
+                    
                 # Optional: Notify the user
                 QMessageBox.information(self, "Deleted", f"IP address with ID {row_id} has been deleted.")
+               
             except Exception as e:
                 QMessageBox.warning(self, "Error", f"Failed to update JSON file: {str(e)}")
 
         else:
             QMessageBox.warning(self, "Warning", "Please select a row to delete.")
 
-        def update_table(self):
-            """Refresh the table with the current list of IPs."""
-            self.table.setRowCount(0)
-            for idx, ip_data in enumerate(self.ip_list):
-                self.table.insertRow(idx)
-                self.table.setItem(idx, 0, QTableWidgetItem(str(ip_data['id'])))
-                self.table.setItem(idx, 1, QTableWidgetItem(ip_data['title']))
-                self.table.setItem(idx, 2, QTableWidgetItem(ip_data['location']))
-                self.table.setItem(idx, 3, QTableWidgetItem(ip_data['ip']))
-
-            # Refresh the rows
-            self.table.repaint()    
+        
 
 
     

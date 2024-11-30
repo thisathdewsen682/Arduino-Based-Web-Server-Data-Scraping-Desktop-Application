@@ -1,16 +1,6 @@
 {
     "ips": [
         {
-            "id": 1,
-            "ip": "172.23.243.161",
-            "title": "DHM-YD/01 ",
-            "location": "C building (Unit)",
-            "min_temp": 18,
-            "max_temp": 28,
-            "min_humidity": 30,
-            "max_humidity": 70
-        },
-        {
             "id": 2,
             "ip": "172.23.246.177",
             "title": "DHM-YD/02",
@@ -129,16 +119,6 @@
             "max_temp": 35,
             "min_humidity": 25,
             "max_humidity": 85
-        },
-        {
-            "id": 14,
-            "ip": "172.23.112.44",
-            "title": "test",
-            "location": "test",
-            "min_temp": 10.0,
-            "max_temp": 20.0,
-            "min_humidity": 10.0,
-            "max_humidity": 20.0
         }
     ]
 }
