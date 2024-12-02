@@ -5,130 +5,130 @@
       "ip": "172.23.243.161",
       "title": "DHM-YD/01",
       "location": "C building (Unit)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 2,
-      "ip": "172.23.246.177",
+      "ip": "172.23.256.77",
       "title": "DHM-YD/02",
       "location": "C building (Collimator)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 50,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 50.0,
+      "max_humidity": 70.0
     },
     {
       "id": 3,
       "ip": "172.23.246.43",
       "title": "DHM-YD/03",
       "location": "C building (QC raw material -Inside Clean Room)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 4,
       "ip": "172.23.243.247",
       "title": "DHM-YD/04",
       "location": "C building (Final Ins.)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 5,
       "ip": "172.23.243.29",
       "title": "DHM-YD/05",
       "location": "C building (QC raw material - Out Side Clean Room)",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     },
     {
       "id": 6,
       "ip": "172.23.246.117",
       "title": "DHM-YD/06",
       "location": "C building (Finish goods)",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     },
     {
       "id": 7,
       "ip": "172.23.245.40",
       "title": "DHM-YD/07",
       "location": "E building (Fiber Assy)",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     },
     {
       "id": 8,
       "ip": "172.23.245.39",
       "title": "DHM-YD/08",
       "location": "E building (AR Coating)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 9,
       "ip": "172.23.245.41",
       "title": "DHM-YD/09",
       "location": "E building (Finish goods)",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     },
     {
       "id": 10,
       "ip": "172.23.245.42",
       "title": "DHM-YD/10",
       "location": "E building (VOA)",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     },
     {
       "id": 11,
       "ip": "172.23.245.187",
       "title": "DHM-YD/11",
       "location": "E building (AR Coating)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 12,
       "ip": "172.23.245.62",
       "title": "DHM-YD/12",
       "location": "E building (AR Coating)",
-      "min_temp": 18,
-      "max_temp": 28,
-      "min_humidity": 30,
-      "max_humidity": 70
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 13,
       "ip": "172.23.243.85",
       "title": "DHM-YD/13",
       "location": "BBB Line",
-      "min_temp": 15,
-      "max_temp": 35,
-      "min_humidity": 25,
-      "max_humidity": 85
+      "min_temp": 15.0,
+      "max_temp": 35.0,
+      "min_humidity": 25.0,
+      "max_humidity": 85.0
     }
   ]
 }
