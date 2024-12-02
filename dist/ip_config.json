@@ -3,7 +3,7 @@
     {
       "id": 1,
       "ip": "172.23.243.161",
-      "title": "DHM-YD/01 ",
+      "title": "DHM-YD/01",
       "location": "C building (Unit)",
       "min_temp": 18,
       "max_temp": 28,
@@ -103,7 +103,7 @@
     {
       "id": 11,
       "ip": "172.23.245.187",
-      "title": "DHM-YD/11 ",
+      "title": "DHM-YD/11",
       "location": "E building (AR Coating)",
       "min_temp": 18,
       "max_temp": 28,
@@ -113,7 +113,7 @@
     {
       "id": 12,
       "ip": "172.23.245.62",
-      "title": "DHM-YD/12 ",
+      "title": "DHM-YD/12",
       "location": "E building (AR Coating)",
       "min_temp": 18,
       "max_temp": 28,
@@ -123,7 +123,7 @@
     {
       "id": 13,
       "ip": "172.23.243.85",
-      "title": "DHM-YD/13 ",
+      "title": "DHM-YD/13",
       "location": "BBB Line",
       "min_temp": 15,
       "max_temp": 35,
