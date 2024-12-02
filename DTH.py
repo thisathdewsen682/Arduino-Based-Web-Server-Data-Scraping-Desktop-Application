@@ -268,58 +268,65 @@ class TempHumidityMonitor(QMainWindow):
 
         threading.Thread(target=worker, daemon=True).start()
 
-   
     def process_queue(self):
         while not self.data_queue.empty():
             id, ip, title, temperature, humidity, min_temp, max_temp, min_humidity, max_humidity = self.data_queue.get()
 
-            # Find the IP entry to get the location
+            # Skip if IP is no longer valid
+            if ip not in [item['ip'] for item in self.ip_list]:
+                continue
+
+            # Get location or mark as Unknown
             location = next((item['location'] for item in self.ip_list if item['ip'] == ip), "Unknown")
 
             if ip in self.ip_data_rows:
+                # Update the existing row
                 row = self.ip_data_rows[ip]
             else:
+                # Insert a new row
                 row = self.table.rowCount()
                 self.table.insertRow(row)
                 self.ip_data_rows[ip] = row
+
+            # Update row data
             self.table.setItem(row, 0, QTableWidgetItem(str(id)))
             self.table.hideColumn(0)
             self.table.setItem(row, 1, QTableWidgetItem(title))
-            self.table.setItem(row, 2, QTableWidgetItem(location))  # Set location in the table
-            self.table.resizeColumnToContents(2)
+            self.table.setItem(row, 2, QTableWidgetItem(location))
 
-# Stretch the last column to fill the remaining width
+            # Stretch the last column to fill the remaining width
             self.table.horizontalHeader().setStretchLastSection(True)
+
             temp_item = QTableWidgetItem(f"{temperature} °C" if temperature else "N/A")
             humidity_item = QTableWidgetItem(f"{humidity} %" if humidity else "N/A")
-
-
             min_max_temp_item = QTableWidgetItem(
                 f"{min_temp if min_temp else 'N/A'} / {max_temp if max_temp else 'N/A'}"
             )
             min_max_humidity_item = QTableWidgetItem(
                 f"{min_humidity if min_humidity else 'N/A'} / {max_humidity if max_humidity else 'N/A'}"
             )
-            # Set color and text color for temperature
+
+            # Color coding for temperature
             if temperature:
                 temp_value = float(temperature)
-                if min_temp is not None and temp_value < min_temp or max_temp is not None and temp_value > max_temp:
+                if (min_temp is not None and temp_value < min_temp) or (max_temp is not None and temp_value > max_temp):
                     temp_item.setBackground(QColor("red"))
                     temp_item.setForeground(QColor("white"))
                 else:
                     temp_item.setBackground(QColor("green"))
                     temp_item.setForeground(QColor("white"))
 
-            # Set color and text color for humidity
+            # Color coding for humidity
             if humidity:
                 humidity_value = float(humidity)
-                if min_humidity is not None and humidity_value < min_humidity or max_humidity is not None and humidity_value > max_humidity:
+                if (min_humidity is not None and humidity_value < min_humidity) or (max_humidity is not None and humidity_value > max_humidity):
                     humidity_item.setBackground(QColor("red"))
                     humidity_item.setForeground(QColor("white"))
                 else:
                     humidity_item.setBackground(QColor("green"))
                     humidity_item.setForeground(QColor("white"))
 
+            # Add data to table
             self.table.setItem(row, 3, temp_item)
             self.table.setItem(row, 4, humidity_item)
             self.table.setItem(row, 5, min_max_temp_item)
@@ -328,7 +335,112 @@ class TempHumidityMonitor(QMainWindow):
             self.table.resizeColumnToContents(2)
 
 
+
+    # def process_queue(self):
+        
+    #     while not self.data_queue.empty():
+    #         id, ip, title, temperature, humidity, min_temp, max_temp, min_humidity, max_humidity = self.data_queue.get()
+
+    #         # Find the IP entry to get the location
+    #         location = next((item['location'] for item in self.ip_list if item['ip'] == ip), "Unknown")
+
+    #         if ip in self.ip_data_rows:
+    #             row = self.ip_data_rows[ip]
+    #         else:
+    #             row = self.table.rowCount()
+    #             self.table.insertRow(row)
+    #             self.ip_data_rows[ip] = row
+    #         self.table.setItem(row, 0, QTableWidgetItem(str(id)))
+    #         self.table.hideColumn(0)
+    #         self.table.setItem(row, 1, QTableWidgetItem(title))
+    #         self.table.setItem(row, 2, QTableWidgetItem(location))  # Set location in the table
+    #         self.table.resizeColumnToContents(2)
+
+    #         # Stretch the last column to fill the remaining width
+    #         self.table.horizontalHeader().setStretchLastSection(True)
+    #         temp_item = QTableWidgetItem(f"{temperature} °C" if temperature else "N/A")
+    #         humidity_item = QTableWidgetItem(f"{humidity} %" if humidity else "N/A")
+
+
+    #         min_max_temp_item = QTableWidgetItem(
+    #             f"{min_temp if min_temp else 'N/A'} / {max_temp if max_temp else 'N/A'}"
+    #         )
+    #         min_max_humidity_item = QTableWidgetItem(
+    #             f"{min_humidity if min_humidity else 'N/A'} / {max_humidity if max_humidity else 'N/A'}"
+    #         )
+    #         # Set color and text color for temperature
+    #         if temperature:
+    #             temp_value = float(temperature)
+    #             if min_temp is not None and temp_value < min_temp or max_temp is not None and temp_value > max_temp:
+    #                 temp_item.setBackground(QColor("red"))
+    #                 temp_item.setForeground(QColor("white"))
+    #             else:
+    #                 temp_item.setBackground(QColor("green"))
+    #                 temp_item.setForeground(QColor("white"))
+
+    #         # Set color and text color for humidity
+    #         if humidity:
+    #             humidity_value = float(humidity)
+    #             if min_humidity is not None and humidity_value < min_humidity or max_humidity is not None and humidity_value > max_humidity:
+    #                 humidity_item.setBackground(QColor("red"))
+    #                 humidity_item.setForeground(QColor("white"))
+    #             else:
+    #                 humidity_item.setBackground(QColor("green"))
+    #                 humidity_item.setForeground(QColor("white"))
+
+    #         self.table.setItem(row, 3, temp_item)
+    #         self.table.setItem(row, 4, humidity_item)
+    #         self.table.setItem(row, 5, min_max_temp_item)
+    #         self.table.setItem(row, 6, min_max_humidity_item)
+
+    #         self.table.resizeColumnToContents(2)
+
+
     # Right-click context menu for table
+
+    def delete_row_by_id(self):
+        row = self.table.currentRow()
+        if row >= 0:
+            row_id = self.table.item(row, 0).text().strip()
+            ip_to_delete = next((item['ip'] for item in self.ip_list if str(item['id']) == row_id), None)
+
+            if ip_to_delete is None:
+                QMessageBox.warning(self, "Error", "Could not find the IP to delete.")
+                return
+
+            # Remove the row from the table
+            self.table.removeRow(row)
+
+            # Remove the IP entry from self.ip_list
+            self.ip_list = [item for item in self.ip_list if str(item['id']) != row_id]
+
+            # Save the updated list to the JSON file
+            try:
+                with open(CONFIG_FILE, "w") as json_file:
+                    json.dump({"ips": self.ip_list}, json_file, indent=4)
+                QMessageBox.information(self, "Deleted", f"IP address with ID {row_id} has been deleted.")
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"Failed to update JSON file: {str(e)}")
+
+            # Rebuild ip_data_rows to match current table state
+            self.ip_data_rows = {
+                self.table.item(row_idx, 1).text(): row_idx  # Rebuild using visible rows
+                for row_idx in range(self.table.rowCount())
+            }
+
+            # Remove stale data from the queue
+            temp_queue = queue.Queue()
+            while not self.data_queue.empty():
+                data = self.data_queue.get()
+                if data[1] != ip_to_delete:  # Skip entries for the deleted IP
+                    temp_queue.put(data)
+            self.data_queue = temp_queue
+
+        else:
+            QMessageBox.warning(self, "Warning", "Please select a row to delete.")
+
+
+
     def show_context_menu(self, pos):
  
         context_menu = QMenu(self)
@@ -337,50 +449,127 @@ class TempHumidityMonitor(QMainWindow):
         context_menu.exec_(self.table.mapToGlobal(pos))
 
 
-    
-         # Clear all rows
     def delete_row_by_id(self):
         row = self.table.currentRow()
-       
         if row >= 0:
-           
             row_id = self.table.item(row, 0).text().strip()
-           
+            ip_to_delete = next((item['ip'] for item in self.ip_list if str(item['id']) == row_id), None)
+
+            if ip_to_delete is None:
+                QMessageBox.warning(self, "Error", "Could not find the IP to delete.")
+                return
+
+            # Remove the row from the table
             self.table.removeRow(row)
 
-            # Remove the corresponding entry from ip_list (assuming ip_list is a list of dicts with an 'id' key)
-            self.ip_list = [item for item in self.ip_list if item['id'] != int(row_id)]
-            
+            # Remove the IP entry from self.ip_list
+            self.ip_list = [item for item in self.ip_list if str(item['id']) != row_id]
+
+            # Save the updated list to the JSON file
             try:
-                with open('ip_config.json', 'r') as json_file:
-                    data = json.load(json_file)
-
-                # Debug: Print the current data from the JSON file
-                #print("Current data loaded from JSON:", data)
-
-                # Remove the IP entry based on its ID
-                data["ips"] = [item for item in data["ips"] if int(item["id"]) != int(row_id)]
-
-
-                
-                # Debug: Print the data after modification
-                #print(data)
-
-                # Save the updated data back to the JSON file
-                with open(CONFIG_FILE, 'w') as json_file:
-                    json.dump(data, json_file, indent=4)
-
-                # Debug: Confirm the file has been saved
-                #print("JSON file updated successfully.")
-                    
-                # Optional: Notify the user
+                with open(CONFIG_FILE, "w") as json_file:
+                    json.dump({"ips": self.ip_list}, json_file, indent=4)
                 QMessageBox.information(self, "Deleted", f"IP address with ID {row_id} has been deleted.")
-               
             except Exception as e:
                 QMessageBox.warning(self, "Error", f"Failed to update JSON file: {str(e)}")
 
+            # Remove the IP from ip_data_rows and reassign row indices
+            self.ip_data_rows = {
+            ip: (idx if idx < row else idx - 1)
+            for ip, idx in self.ip_data_rows.items()
+            if ip != ip_to_delete
+        }
+
+            # Ensure no stale data in the queue
+            temp_queue = queue.Queue()
+            while not self.data_queue.empty():
+                data = self.data_queue.get()
+                if data[1] != ip_to_delete:  # Skip entries for the deleted IP
+                    temp_queue.put(data)
+            self.data_queue = temp_queue
+
         else:
             QMessageBox.warning(self, "Warning", "Please select a row to delete.")
+
+
+
+    # def delete_row_by_id(self):
+        # row = self.table.currentRow()
+        # if row >= 0:
+            # row_id = self.table.item(row, 0).text().strip()
+            # ip_to_delete = self.table.item(row, 1).text().strip()  # Assuming title is unique
+    
+            # # Remove the row from the table
+            # self.table.removeRow(row)
+    
+            # # Remove the IP entry from self.ip_list
+            # self.ip_list = [item for item in self.ip_list if str(item['id']) != row_id]
+    
+            # # Save the updated list to the JSON file
+            # try:
+                # with open(CONFIG_FILE, "w") as json_file:
+                    # json.dump({"ips": self.ip_list}, json_file, indent=4)
+                # QMessageBox.information(self, "Deleted", f"IP address with ID {row_id} has been deleted.")
+            # except Exception as e:
+                # QMessageBox.warning(self, "Error", f"Failed to update JSON file: {str(e)}")
+    
+            # # Ensure no stale data in the queue
+            # temp_queue = queue.Queue()
+            # while not self.data_queue.empty():
+                # data = self.data_queue.get()
+                # if data[1] != ip_to_delete:  # Skip entries for the deleted IP
+                    # temp_queue.put(data)
+            # self.data_queue = temp_queue
+    
+        # else:
+            # QMessageBox.warning(self, "Warning", "Please select a row to delete.")
+
+
+
+    
+         # Clear all rows
+    # def delete_row_by_id(self):
+    #     row = self.table.currentRow()
+       
+    #     if row >= 0:
+           
+    #         row_id = self.table.item(row, 0).text().strip()
+           
+    #         self.table.removeRow(row)
+
+    #         # Remove the corresponding entry from ip_list (assuming ip_list is a list of dicts with an 'id' key)
+    #         self.ip_list = [item for item in self.ip_list if item['id'] != int(row_id)]
+            
+    #         try:
+    #             with open('ip_config.json', 'r') as json_file:
+    #                 data = json.load(json_file)
+
+    #             # Debug: Print the current data from the JSON file
+    #             #print("Current data loaded from JSON:", data)
+
+    #             # Remove the IP entry based on its ID
+    #             data["ips"] = [item for item in data["ips"] if int(item["id"]) != int(row_id)]
+
+
+                
+    #             # Debug: Print the data after modification
+    #             #print(data)
+
+    #             # Save the updated data back to the JSON file
+    #             with open(CONFIG_FILE, 'w') as json_file:
+    #                 json.dump(data, json_file, indent=4)
+
+    #             # Debug: Confirm the file has been saved
+    #             #print("JSON file updated successfully.")
+                    
+    #             # Optional: Notify the user
+    #             QMessageBox.information(self, "Deleted", f"IP address with ID {row_id} has been deleted.")
+               
+    #         except Exception as e:
+    #             QMessageBox.warning(self, "Error", f"Failed to update JSON file: {str(e)}")
+
+    #     else:
+    #         QMessageBox.warning(self, "Warning", "Please select a row to delete.")
    
             
 if __name__ == "__main__":
