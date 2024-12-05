@@ -183,8 +183,51 @@ class TempHumidityMonitor(QMainWindow):
 
         # Header layout
         header_layout = QVBoxLayout()
-        header_layout.addWidget(self.clock_label)  # Add the clock to the header
+
+        # Title Header
+        title_container = QWidget()
+        title_layout = QVBoxLayout()
+        title_layout.setContentsMargins(20, 10, 20, 0)  # Add margins for spacing
+        self.title_label = QLabel("Kohoku Lanka Digital Hygrometer Monitoring System")
+        self.title_label.setFont(QFont("Arial", 20, QFont.Bold))  # Larger font for title
+        self.title_label.setAlignment(Qt.AlignCenter)  # Center-align the title
+
+        self.title_label.setStyleSheet("""
+    background-color: #2e8b57;  /* Green background */
+    color: white;               /* White text */
+    padding: 15px;              /* Extra padding */
+    border-radius: 10px;        /* Rounded corners for style */
+""")  # Dark blue text
+
+        title_layout.addWidget(self.title_label)
+        title_container.setLayout(title_layout)
+
+        # Clock Header
+        time_container = QWidget()
+        time_layout = QHBoxLayout()
+        time_layout.setContentsMargins(20, 0, 20, 10)  # Add margins for spacing
+        self.clock_label.setFont(QFont("Arial", 16, QFont.Bold))  # Slightly smaller font for the clock
+        self.clock_label.setAlignment(Qt.AlignRight)  # Align the clock to the right
+        self.clock_label.setStyleSheet("color: black;")  # Black text for the clock
+        time_layout.addWidget(self.clock_label)
+        time_container.setLayout(time_layout)
+
+        # Add title and clock headers to the main header layout
+        header_layout.addWidget(title_container)
+        header_layout.addWidget(time_container)
+
+        # Add spacing below the header
+        header_layout.addSpacing(10)
+
+        # Add the input layout below the headers
         header_layout.addLayout(input_layout)
+
+        
+
+
+
+
+    
 
         # Main layout
         main_layout = QVBoxLayout()
