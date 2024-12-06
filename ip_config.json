@@ -19,7 +19,7 @@
       "location": "C building (Collimator)",
       "min_temp": 18.0,
       "max_temp": 28.0,
-      "min_humidity": 50.0,
+      "min_humidity": 30.0,
       "max_humidity": 70.0
     },
     {
@@ -105,10 +105,10 @@
       "title": "DHM-YD/10",
       "barcode": "22010121",
       "location": "E building (VOA)",
-      "min_temp": 15.0,
-      "max_temp": 35.0,
-      "min_humidity": 25.0,
-      "max_humidity": 85.0
+      "min_temp": 18.0,
+      "max_temp": 28.0,
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     },
     {
       "id": 11,
@@ -140,8 +140,8 @@
       "location": "BBB Line",
       "min_temp": 15.0,
       "max_temp": 35.0,
-      "min_humidity": 25.0,
-      "max_humidity": 85.0
+      "min_humidity": 30.0,
+      "max_humidity": 70.0
     }
   ]
 }

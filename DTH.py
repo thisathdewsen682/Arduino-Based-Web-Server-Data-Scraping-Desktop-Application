@@ -88,7 +88,7 @@ class TempHumidityMonitor(QMainWindow):
         self.table = QTableWidget()
         self.table.setColumnCount(8)
         self.table.setHorizontalHeaderLabels([
-            "","DHM No", "Barcode","Location", "Temperature (°C)", "Humidity (%)", 
+            "","DHM No", "Barcode No","Location", "Temperature (°C)", "Humidity (%)", 
             "Min/Max Temp (°C)", "Min/Max Humidity (%)"  # New columns
         ])
         self.table.setRowCount(0)
@@ -170,7 +170,7 @@ class TempHumidityMonitor(QMainWindow):
         input_layout.addWidget(self.ip_input)
         input_layout.addWidget(QLabel("DHM No:"))
         input_layout.addWidget(self.title_input)
-        input_layout.addWidget(QLabel("Barcode:"))  # Add label for barcode
+        input_layout.addWidget(QLabel("Barcode No:"))  # Add label for barcode
         input_layout.addWidget(self.barcode_input) 
         input_layout.addWidget(QLabel("Location:"))  # Add label for location
         input_layout.addWidget(self.location_input)  # Add location input field
@@ -253,9 +253,9 @@ class TempHumidityMonitor(QMainWindow):
         self.ip_data_rows = {}
 
     def update_clock(self):
-        """Update the clock display with the current time."""
-        current_time = datetime.now().strftime("%H:%M:%S")
-        self.clock_label.setText(f"Current Time: {current_time}")
+        """Update the clock display with the current date and time."""
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Adding date (Year-Month-Day)
+        self.clock_label.setText(f"{current_time}")
 
    
     def create_centered_item(self, text):
@@ -360,7 +360,7 @@ class TempHumidityMonitor(QMainWindow):
             self.table.setItem(row, 1, QTableWidgetItem(title))
             self.table.setItem(row, 2, QTableWidgetItem(barcode))
             self.table.setItem(row, 3, QTableWidgetItem(location))
-
+            self.table.setColumnWidth(6, 250)
             # Stretch the last column to fill the remaining width
             self.table.horizontalHeader().setStretchLastSection(True)
 
