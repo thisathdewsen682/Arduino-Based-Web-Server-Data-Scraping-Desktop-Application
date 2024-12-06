@@ -86,9 +86,9 @@ class TempHumidityMonitor(QMainWindow):
 
         # Table widget setup
         self.table = QTableWidget()
-        self.table.setColumnCount(7)
+        self.table.setColumnCount(8)
         self.table.setHorizontalHeaderLabels([
-            "","Title", "Location", "Temperature (°C)", "Humidity (%)", 
+            "","DHM No", "Barcode No","Location", "Temperature (°C)", "Humidity (%)", 
             "Min/Max Temp (°C)", "Min/Max Humidity (%)"  # New columns
         ])
         self.table.setRowCount(0)
@@ -155,6 +155,7 @@ class TempHumidityMonitor(QMainWindow):
         self.ip_input = QLineEdit()
         self.title_input = QLineEdit()
         self.location_input = QLineEdit()  # New input field for Location
+        self.barcode_input = QLineEdit()  # New input field for barcode
         self.min_temp_input = QLineEdit()
         self.max_temp_input = QLineEdit()
         self.min_humidity_input = QLineEdit()
@@ -167,10 +168,13 @@ class TempHumidityMonitor(QMainWindow):
         input_layout = QHBoxLayout()
         input_layout.addWidget(QLabel("IP Address:"))
         input_layout.addWidget(self.ip_input)
-        input_layout.addWidget(QLabel("Title:"))
+        input_layout.addWidget(QLabel("DHM No:"))
         input_layout.addWidget(self.title_input)
+        input_layout.addWidget(QLabel("Barcode No:"))  # Add label for barcode
+        input_layout.addWidget(self.barcode_input) 
         input_layout.addWidget(QLabel("Location:"))  # Add label for location
         input_layout.addWidget(self.location_input)  # Add location input field
+        # Add barcode input field
         input_layout.addWidget(QLabel("Min Temp:"))
         input_layout.addWidget(self.min_temp_input)
         input_layout.addWidget(QLabel("Max Temp:"))
@@ -183,8 +187,51 @@ class TempHumidityMonitor(QMainWindow):
 
         # Header layout
         header_layout = QVBoxLayout()
-        header_layout.addWidget(self.clock_label)  # Add the clock to the header
+
+        # Title Header
+        title_container = QWidget()
+        title_layout = QVBoxLayout()
+        title_layout.setContentsMargins(20, 10, 20, 0)  # Add margins for spacing
+        self.title_label = QLabel("Kohoku Lanka Digital Hygrometer Monitoring System")
+        self.title_label.setFont(QFont("Arial", 20, QFont.Bold))  # Larger font for title
+        self.title_label.setAlignment(Qt.AlignCenter)  # Center-align the title
+
+        self.title_label.setStyleSheet("""
+    background-color: #2e8b57;  /* Green background */
+    color: white;               /* White text */
+    padding: 15px;              /* Extra padding */
+    border-radius: 10px;        /* Rounded corners for style */
+""")  # Dark blue text
+
+        title_layout.addWidget(self.title_label)
+        title_container.setLayout(title_layout)
+
+        # Clock Header
+        time_container = QWidget()
+        time_layout = QHBoxLayout()
+        time_layout.setContentsMargins(20, 0, 20, 10)  # Add margins for spacing
+        self.clock_label.setFont(QFont("Arial", 16, QFont.Bold))  # Slightly smaller font for the clock
+        self.clock_label.setAlignment(Qt.AlignRight)  # Align the clock to the right
+        self.clock_label.setStyleSheet("color: black;")  # Black text for the clock
+        time_layout.addWidget(self.clock_label)
+        time_container.setLayout(time_layout)
+
+        # Add title and clock headers to the main header layout
+        header_layout.addWidget(title_container)
+        header_layout.addWidget(time_container)
+
+        # Add spacing below the header
+        header_layout.addSpacing(10)
+
+        # Add the input layout below the headers
         header_layout.addLayout(input_layout)
+
+        
+
+
+
+
+    
 
         # Main layout
         main_layout = QVBoxLayout()
@@ -206,9 +253,9 @@ class TempHumidityMonitor(QMainWindow):
         self.ip_data_rows = {}
 
     def update_clock(self):
-        """Update the clock display with the current time."""
-        current_time = datetime.now().strftime("%H:%M:%S")
-        self.clock_label.setText(f"Current Time: {current_time}")
+        """Update the clock display with the current date and time."""
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Adding date (Year-Month-Day)
+        self.clock_label.setText(f"{current_time}")
 
    
     def create_centered_item(self, text):
@@ -227,6 +274,7 @@ class TempHumidityMonitor(QMainWindow):
     def add_ip(self):
         ip = self.ip_input.text().strip()
         title = self.title_input.text().strip()
+        barcode = self.barcode_input.text().strip()  # Capture the barcode
         location = self.location_input.text().strip()  # Capture the location
         min_temp = float(self.min_temp_input.text()) if self.min_temp_input.text() else None
         max_temp = float(self.max_temp_input.text()) if self.max_temp_input.text() else None
@@ -239,6 +287,7 @@ class TempHumidityMonitor(QMainWindow):
                 'id': new_id, 
                 'ip': ip,
                 'title': title,
+                'barcode': barcode,  # Add the barcode to the data
                 'location': location,  # Store the location
                 'min_temp': min_temp,
                 'max_temp': max_temp,
@@ -249,6 +298,7 @@ class TempHumidityMonitor(QMainWindow):
             QMessageBox.information(self, "Success", f"IP address {ip} added successfully!")
             self.ip_input.clear()
             self.title_input.clear()
+            self.barcode_input.clear()  # Clear the barcode input
             self.location_input.clear()  # Clear the location input
             self.min_temp_input.clear()
             self.max_temp_input.clear()
@@ -270,6 +320,7 @@ class TempHumidityMonitor(QMainWindow):
                     id =  ip_data['id']
                     title = ip_data.get('title', f"Data for IP: {ip_data['ip']}")
                     ip = ip_data['ip']
+                    barcode = ip_data.get('barcode', None)
                     min_temp = ip_data.get('min_temp', None)
                     max_temp = ip_data.get('max_temp', None)
                     min_humidity = ip_data.get('min_humidity', None)
@@ -291,6 +342,7 @@ class TempHumidityMonitor(QMainWindow):
                 continue
 
             # Get location or mark as Unknown
+            barcode = next((item['barcode'] for item in self.ip_list if item['ip'] == ip), "Unknown")
             location = next((item['location'] for item in self.ip_list if item['ip'] == ip), "Unknown")
 
             if ip in self.ip_data_rows:
@@ -306,8 +358,9 @@ class TempHumidityMonitor(QMainWindow):
             self.table.setItem(row, 0, QTableWidgetItem(str(id)))
             self.table.hideColumn(0)
             self.table.setItem(row, 1, QTableWidgetItem(title))
-            self.table.setItem(row, 2, QTableWidgetItem(location))
-
+            self.table.setItem(row, 2, QTableWidgetItem(barcode))
+            self.table.setItem(row, 3, QTableWidgetItem(location))
+            self.table.setColumnWidth(6, 250)
             # Stretch the last column to fill the remaining width
             self.table.horizontalHeader().setStretchLastSection(True)
 
@@ -341,12 +394,12 @@ class TempHumidityMonitor(QMainWindow):
                     humidity_item.setForeground(QColor("white"))
 
             # Add data to table
-            self.table.setItem(row, 3, temp_item)
-            self.table.setItem(row, 4, humidity_item)
-            self.table.setItem(row, 5, min_max_temp_item)
-            self.table.setItem(row, 6, min_max_humidity_item)
+            self.table.setItem(row, 4, temp_item)
+            self.table.setItem(row, 5, humidity_item)
+            self.table.setItem(row, 6, min_max_temp_item)
+            self.table.setItem(row, 7, min_max_humidity_item)
 
-            self.table.resizeColumnToContents(2)
+            self.table.resizeColumnToContents(3)
 
 
     def delete_row_by_id(self):
